@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Admin Panel{% endblock %}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: #003366;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            font-size: 30px;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        footer {
+            background-color: #003366;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            font-size: 16px;
+            border-top: 2px solid #002244;
+            margin-top: auto;
+        }
+
+        .container {
+            display: flex;
+            flex: 1;
+            min-height: calc(100vh - 160px); /* Adjust based on header and footer height */
+        }
+
+        .sidebar {
+            background-color: #333;
+            color: #fff;
+            width: 250px;
+            padding: 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100%;
+        }
+
+        .sidebar h2 {
+            margin-top: 0;
+        }
+
+        .sidebar nav {
+            width: 100%;
+        }
+
+        .sidebar nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar nav ul li {
+            margin: 15px 0;
+        }
+
+        .sidebar nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .sidebar nav ul li a.active,
+        .sidebar nav ul li a:hover {
+            background-color: #007bff;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            margin-left: 270px; /* Adjusted to account for the fixed sidebar */
+            padding: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                margin-bottom: 20px;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 15px;
+            }
+        }
+    </style>
+    {% block custom_css %}{% endblock %}
+</head>
+<body>
+
+    <header>
+        SubmissionHub - Admin Dashboard
+    </header>
+
+    <div class="container">
+        <aside class="sidebar">
+            <h2>Admin Menu</h2>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('admin_dashboard') }}" class="{% if request.endpoint == 'admin_dashboard' %}active{% endif %}">Dashboard</a></li>
+                    <li><a href="{{ url_for('admin_add_teacher') }}" class="{% if request.endpoint == 'admin_add_teacher' %}active{% endif %}">Add Teacher</a></li>
+                    <li><a href="{{ url_for('admin_view_teachers') }}" class="{% if request.endpoint == 'admin_view_teachers' %}active{% endif %}">View Teachers</a></li>
+                    <li><a href="{{ url_for('logout') }}" class="{% if request.endpoint == 'logout' %}active{% endif %}">Logout</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+
+    <footer>
+        &copy; 2024 SubmissionHub. All rights reserved.
+    </footer>
+
+</body>
+</html>

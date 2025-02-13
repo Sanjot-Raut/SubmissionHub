@@ -1,0 +1,149 @@
+{% extends "teacher_layout.html" %}
+
+{% block content %}
+<style>
+    .container {
+        
+        max-width: 1200px;
+    }
+    .header {
+        margin-bottom: 30px;
+        text-align: center;
+    }
+    .header h2 {
+        font-size: 32px;
+        font-weight: 700;
+        color: #003366;
+        margin: 0;
+    }
+    .header .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        color: #fff;
+        padding: 10px 20px;
+        font-size: 16px;
+        font-weight: 500;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+        text-align: center;
+        margin-top: 10px;
+    }
+    .header .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #004494;
+    }
+    .card {
+        background-color: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    .card:hover {
+        transform: scale(1.03);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    }
+    .card-title {
+        font-size: 24px;
+        font-weight: bold;
+        color: #003366;
+    }
+    .card-subtitle {
+        font-size: 18px;
+        color: #555;
+        margin-bottom: 10px;
+    }
+    .card-text {
+        font-size: 16px;
+        color: #333;
+        margin-bottom: 15px;
+        flex-grow: 1;
+    }
+    .btn-info, .btn-warning {
+        background-color: #28a745;
+        border-color: #28a745;
+        color: #fff;
+        padding: 10px 15px;
+        font-size: 16px;
+        font-weight: 500;
+        border-radius: 5px;
+        transition: background-color 0.3s ease, border-color 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+        text-align: center;
+    }
+    .btn-info:hover, .btn-warning:hover {
+        background-color: #218838;
+        border-color: #1e7e34;
+    }
+      .btn-warning {
+        background-color: #ffc107;
+        border-color: #ffc107;
+    }
+     .btn-warning:hover {
+        background-color: #e0a800;
+        border-color: #d39e00;
+    }
+    .alert {
+        margin-top: 20px;
+        font-size: 16px;
+    }
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+    .col-md-6, .col-lg-4 {
+        flex: 1;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+    @media (min-width: 768px) {
+        .col-md-6 {
+            max-width: 50%;
+        }
+    }
+    @media (min-width: 992px) {
+        .col-lg-4 {
+            max-width: 33.33%;
+        }
+    }
+</style>
+<div class="header">
+        <h2>Subjects</h2>
+        <a href="{{ url_for('teacher_add_subject') }}" class="btn btn-primary">Add New Subject</a>
+    </div>
+<div class="container">
+    
+    
+    <div class="subjects">
+        <div class="row">
+            {% if subjects %}
+                {% for subject in subjects %}
+                <div class="col-md-6 col-lg-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ subject.name }}</h5>
+                            <h6 class="card-subtitle">{{ subject.subject_code }}</h6>
+                            <p class="card-text">{{ subject.description }}</p>
+                            <p class="card-text"><strong>Semester:</strong> {{ subject.semester }}</p>
+                            <a href="{{ url_for('teacher_view_subject_details', subject_id=subject.id) }}" class="btn btn-info mt-auto">View Details</a>
+                             <a href="{{ url_for('teacher_edit_subject', subject_id=subject.id) }}" class="btn btn-warning">Edit Subject</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="alert alert-info" role="alert">
+                    No subjects found.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

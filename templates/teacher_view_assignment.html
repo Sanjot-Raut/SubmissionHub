@@ -1,0 +1,172 @@
+{% extends "teacher_layout.html" %}
+
+{% block content %}
+<style>
+    .card {
+        border-radius: 12px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        background: #ffffff;
+        max-width: 900px; /* Increased max-width for better readability */
+        margin: 0 auto; /* Center the card horizontally */
+    }
+
+    .card-header {
+        background: #007bff; /* Strong blue for prominence */
+        color: #ffffff;
+        padding: 20px;
+        font-size: 1.75rem;
+        font-weight: 700;
+        text-align: center;
+        border-bottom: 1px solid #0056b3;
+    }
+
+    .card-body {
+        padding: 30px;
+        background: #f9f9f9;
+    }
+
+    .card-body h4 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    .card-body p {
+        font-size: 1rem;
+        line-height: 1.6;
+        color: #555;
+    }
+
+    .table {
+        margin-top: 20px;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    .table thead th {
+        background-color: #007bff;
+        color: #ffffff;
+        font-weight: 600;
+        border-bottom: 2px solid #0056b3;
+        padding: 12px;
+        text-align: left;
+    }
+
+    .table tbody td {
+        vertical-align: middle;
+        text-align: left;
+        padding: 12px;
+        border-bottom: 1px solid #e9ecef;
+    }
+
+    .table tbody tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    .table tbody tr:hover {
+        background-color: #e9ecef;
+    }
+
+    .table a {
+        color: #007bff;
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+    .table a:hover {
+        text-decoration: underline;
+    }
+
+    .table .btn-info {
+        background-color: #17a2b8;
+        border-color: #17a2b8;
+        color: #ffffff;
+        border-radius: 4px;
+        font-size: 0.875rem;
+        padding: 6px 12px;
+        text-transform: uppercase;
+        text-align: center;
+        line-height: 1.5;
+    }
+
+    .table .btn-info:hover {
+        background-color: #138496;
+        border-color: #117a8b;
+    }
+
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        color: #ffffff;
+        border-radius: 4px;
+        font-size: 1rem;
+        padding: 10px 20px;
+        text-transform: uppercase;
+        text-align: center;
+        line-height: 1.5;
+        display: block;
+        width: max-content;
+        margin: 20px auto 0;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #004085;
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white">
+            <h2>Assignment Details</h2>
+        </div>
+        <div class="card-body">
+            <h4 class="mb-4">Assignment Information</h4>
+            <p><strong>Title:</strong> {{ assignment.title }}</p>
+            <p><strong>Description:</strong> {{ assignment.description }}</p>
+            <p><strong>Assignment File :</strong>
+            <a href="{{ url_for('uploaded_file', filename=assignment.file_path|replace('\\', '/')) }}" target="_blank">View File</a></p>
+            <p><strong>Due Date:</strong> {{ assignment.due_date }}</p>
+            
+            <h4 class="mt-4">Student Responses</h4>
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col">Student Name</th>
+                            <th scope="col">Submission Date</th>
+                            <th scope="col">Comments</th>
+                            <th scope="col">File</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for response in responses %}
+                        <tr>
+                            <td>{{ response.student_id }}</td>
+                            <td>{{ response.submission_date }}</td>
+                            <td>{{ response.comments }}</td>
+                            <td>
+                                <a href="{{ url_for('student_uploaded_file_assignments', filename=response.file_path|replace('\\', '/')) }}" target="_blank" class="btn btn-info btn-sm">View</a>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="4" class="text-center">No responses submitted yet.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <a href="{{ url_for('teacher_view_plagiarism_report', assignment_id=assignment.id, subject=subject) }}" class="btn btn-primary">View Plagiarism Report</a>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

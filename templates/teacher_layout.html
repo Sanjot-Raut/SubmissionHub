@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}SubmissionHub - Teacher Dashboard{% endblock %}</title>
+    <style>
+        /* Your existing CSS styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: #003366;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            font-size: 30px;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        footer {
+            background-color: #003366;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            font-size: 16px;
+            border-top: 2px solid #002244;
+            margin-top: auto;
+        }
+
+        .container {
+            display: flex;
+            flex: 1;
+            min-height: calc(100vh - 160px); /* Adjust based on header and footer height */
+        }
+
+        .sidebar {
+            background-color: #333;
+            color: #fff;
+            width: 250px;
+            padding: 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100%;
+        }
+
+        .sidebar h2 {
+            margin-top: 0;
+        }
+
+        .sidebar nav {
+            width: 100%;
+        }
+
+        .sidebar nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar nav ul li {
+            margin: 15px 0;
+        }
+
+        .sidebar nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .sidebar nav ul li a.active,
+        .sidebar nav ul li a:hover {
+            background-color: #007bff;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            margin-left: 270px; /* Adjusted to account for the fixed sidebar */
+            padding: 30px;
+        }
+
+        .card {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                margin-bottom: 20px;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 15px;
+            }
+
+            .card {
+                margin: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        SubmissionHub - Teacher Dashboard
+    </header>
+
+    <div class="container">
+        <aside class="sidebar">
+            <h2>Teacher Panel</h2>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('teacher_dashboard') }}" class="{% if request.endpoint == 'teacher_dashboard' %}active{% endif %}">Dashboard</a></li>
+                    <li><a href="{{ url_for('teacher_add_subject') }}" class="{% if request.endpoint == 'teacher_add_subject' %}active{% endif %}">Add Subject</a></li>
+                    <li><a href="{{ url_for('teacher_view_subjects') }}" class="{% if request.endpoint == 'teacher_view_subjects' %}active{% endif %}">View Subjects</a></li>
+                    <li><a href="{{ url_for('teacher_add_students') }}" class="{% if request.endpoint == 'teacher_add_students' %}active{% endif %}">Add Students</a></li>
+                    <li><a href="{{ url_for('teacher_view_students') }}" class="{% if request.endpoint == 'teacher_view_students' %}active{% endif %}">View Students</a></li>
+                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            {% block content %}
+            {% endblock %}
+        </main>
+    </div>
+
+    <footer>
+        &copy; 2024 SubmissionHub. All rights reserved.
+    </footer>
+    <script>
+         document.addEventListener('DOMContentLoaded', function() {
+            // Display flash messages
+            {% with messages = get_flashed_messages(with_categories=True) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        alert(decodeURIComponent('{{ message|tojson|safe }}')); // Display message using JavaScript alert
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        });
+    </script>
+</body>
+</html>

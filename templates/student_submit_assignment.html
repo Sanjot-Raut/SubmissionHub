@@ -1,0 +1,58 @@
+{% extends 'student_layout.html' %}
+
+{% block title %}Submit Assignment{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white">
+            <h2 class="mb-0">Submit Assignment</h2>
+            <p class="mb-0">Subject: {{ subject.name }}</p>
+        </div>
+        <div class="card-body">
+            <form action="{{ url_for('student_submit_assignment', subject_id=subject.id, assignment_id=assignment.id) }}" method="POST" enctype="multipart/form-data">
+                <div class="form-group mb-4">
+                    <label for="assignment_title" class="form-label">Assignment Title</label>
+                    <input type="text" class="form-control" id="assignment_title" name="assignment_title" value="{{ assignment.title }}" readonly>
+                </div>
+                <div class="form-group mb-4">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea class="form-control" id="description" name="description" rows="4" readonly>{{ assignment.description }}</textarea>
+                </div>
+                <div class="form-group mb-4">
+                    <label for="submission_file" class="form-label">Upload Your Assignment</label>
+                    <input type="file" class="form-control" id="submission_file" name="submission_file" required>
+                    <small class="form-text text-muted">Supported formats: PDF, DOCX, PPTX, etc.</small>
+                </div>
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-success">Submit Assignment</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card-header {
+        padding: 1rem 1.5rem;
+    }
+
+    .form-label {
+        font-weight: bold;
+    }
+
+    .form-text {
+        font-size: 0.9rem;
+    }
+
+    .btn-success {
+        background-color: #28a745;
+        border-color: #28a745;
+    }
+
+    .btn-success:hover {
+        background-color: #218838;
+        border-color: #1e7e34;
+    }
+</style>
+{% endblock %}

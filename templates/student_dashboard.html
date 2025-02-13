@@ -1,0 +1,129 @@
+{% extends "student_layout.html" %}
+
+{% block title %}Profile Dashboard - SubmissionHub{% endblock %}
+
+{% block content %}
+<style>
+.profile-card {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 20px;
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    background-color: #ffffff;
+    overflow: hidden;
+}
+
+.profile-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.profile-picture {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #007bff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.profile-header h2 {
+    margin: 15px 0;
+    font-size: 2rem;
+    color: #003366;
+}
+
+.profile-body {
+    padding: 0 20px;
+}
+
+.profile-detail {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.profile-detail:last-of-type {
+    border-bottom: none;
+}
+
+.profile-detail h5 {
+    font-size: 1.1rem;
+    color: #007bff;
+    margin: 0;
+    width: 20%;
+
+}
+
+.profile-detail p {
+    font-size: 1rem;
+    color: #333;
+    margin: 0;
+    width: 70%;
+    text-align: left;
+}
+
+.btn {
+    display: inline-block;
+    padding: 12px 24px;
+    font-size: 16px;
+    border-radius: 30px;
+    text-decoration: none;
+    color: #ffffff;
+    background-color: #007bff;
+    text-align: center;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+</style>
+
+<div class="profile-card">
+    <div class="profile-header">
+        <img src="{{ url_for('profile_pic', user_id=student.id) }}" alt="Profile Picture" class="profile-picture">
+        <h2>{{ student.name }}</h2>
+    </div>
+    <div class="profile-body">
+        <div class="profile-detail">
+            <h5>User ID:</h5>
+            <p>{{ student.userid }}</p>
+        </div>
+        <div class="profile-detail">
+            <h5>Class:</h5>
+            <p>{{ student.class }}</p>
+        </div>
+        <div class="profile-detail">
+            <h5>Roll Number:</h5>
+            <p>{{ student.roll_number }}</p>
+        </div>
+        <div class="profile-detail">
+            <h5>Email:</h5>
+            <p>{{ student.email }}</p>
+        </div>
+        <div class="profile-detail">
+            <h5>Phone:</h5>
+            <p>{{ student.phone_number }}</p>
+        </div>
+        <div class="profile-detail">
+            <h5>Address:</h5>
+            <p>{{ student.address }}</p>
+        </div>
+        <div class="profile-detail">
+            <h5>Registered At:</h5>
+            <p>{{ student.registered_at }}</p>
+        </div>
+    </div>
+    <div class="text-center mt-4">
+        <a href="{{ url_for('update_profile', user_id=student.id) }}" class="btn btn-primary">Edit Profile</a>
+    </div>
+</div>
+{% endblock %}

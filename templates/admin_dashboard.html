@@ -1,0 +1,138 @@
+{% extends "admin_layout.html" %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <div class="dashboard-welcome">
+        <h3>Welcome, {{ session['username'] }}</h3>
+        <p>Select an option from the menu to manage the system.</p>
+    </div>
+
+    <div class="dashboard-cards">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Manage Teachers</h5>
+                <p class="card-text">Add or view teacher profiles and manage their details.</p>
+                <div class="btn-group">
+                    <a href="{{ url_for('admin_add_teacher') }}" class="btn btn-primary">Add Teacher</a>
+                    <a href="{{ url_for('admin_view_teachers') }}" class="btn btn-primary">View Teachers</a>
+                </div>
+            </div>
+        </div>
+        <!-- You can add more cards here if needed -->
+    </div>
+</div>
+
+<style>
+.dashboard-container {
+    padding: 30px;
+}
+
+.dashboard-welcome {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.dashboard-welcome h3 {
+    font-size: 2.5rem;
+    color: #003366;
+    font-weight: bold;
+}
+
+.dashboard-welcome p {
+    font-size: 1.2rem;
+    color: #555;
+}
+
+.dashboard-cards {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    margin: 15px;
+    width: 100%;
+    max-width: 350px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.card-body {
+    padding: 20px;
+    text-align: center;
+}
+
+.card-title {
+    font-size: 1.75rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.card-text {
+    font-size: 1rem;
+    color: #777;
+    margin-bottom: 20px;
+}
+
+.btn-group {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn {
+    font-size: 1rem;
+    padding: 10px 20px;
+    border-radius: 25px;
+    transition: background-color 0.3s, border-color 0.3s, transform 0.2s;
+}
+
+.btn-primary {
+    text-decoration:none;
+    background-color: #007bff;
+    border-color: #007bff;
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #004085;
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    color: #fff;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+    border-color: #545b62;
+    transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+    .dashboard-cards {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .card {
+        width: 90%;
+        max-width: 500px;
+        margin: 10px 0;
+    }
+}
+</style>
+{% endblock %}

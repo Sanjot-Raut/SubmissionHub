@@ -1,0 +1,144 @@
+{% extends 'student_layout.html' %}
+
+{% block title %}Subject Details{% endblock %}
+
+{% block content %}
+<div class="subject-details-container">
+    <h1 class="subject-title">{{ subject.name }}</h1>
+    <p class="subject-description">{{ subject.details }}</p>
+    <a href="{{ url_for('student_view_subjects') }}" class="btn btn-secondary">Back to Subjects</a>
+
+    <h2 class="assignments-title">Assignments</h2>
+    {% if assignments %}
+        <table class="assignments-table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Deadline</th>
+                    <th>Reply</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for assignment in assignments %}
+                <tr>
+                    <td>{{ assignment.title }}</td>
+                    <td>{{ assignment.due_date }}</td>
+                    <td><a href="{{ url_for('student_view_assignment', assignment_id=assignment.id) }}" class="btn btn-submit">Submit</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="no-assignments-message">No assignments available for this subject.</p>
+    {% endif %}
+</div>
+<style>
+    .subject-details-container {
+        max-width: 900px;
+        margin: 30px auto;
+        padding: 20px;
+        background-color: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    .subject-title {
+        font-size: 2.5rem;
+        color: #003366;
+        margin-bottom: 15px;
+        text-align: center;
+    }
+
+    .subject-description {
+        font-size: 1.2rem;
+        color: #555;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .btn-secondary {
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 1rem;
+        color: #ffffff;
+        background-color: #6c757d;
+        border: none;
+        border-radius: 25px;
+        text-align: center;
+        text-decoration: none;
+        transition: background-color 0.3s;
+    }
+
+    .btn-secondary:hover {
+        background-color: #5a6268;
+    }
+
+    .assignments-title {
+        font-size: 2rem;
+        color: #003366;
+        margin-top: 30px;
+        margin-bottom: 15px;
+        text-align: center;
+    }
+
+    .assignments-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    .assignments-table th,
+    .assignments-table td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: left;
+    }
+
+    .assignments-table th {
+        background-color: #007bff;
+        color: #ffffff;
+        font-size: 1.1rem;
+    }
+
+    .assignments-table tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    .assignments-table tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    .assignment-link {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+    .assignment-link:hover {
+        color: #0056b3;
+    }
+
+    .btn-submit {
+        display: inline-block;
+        padding: 5px 15px;
+        font-size: 1rem;
+        color: #ffffff;
+        background-color: #28a745;
+        border: none;
+        border-radius: 5px;
+        text-align: center;
+        text-decoration: none;
+        transition: background-color 0.3s;
+    }
+
+    .btn-submit:hover {
+        background-color: #218838;
+    }
+
+    .no-assignments-message {
+        font-size: 1.2rem;
+        color: #d9534f;
+        text-align: center;
+        margin-top: 20px;
+    }
+</style>
+{% endblock %}

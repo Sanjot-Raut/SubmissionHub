@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block title %}Teacher Login{% endblock %}
+
+{% block heading %}Teacher Log In{% endblock %}
+
+{% block content %}
+<form action="{{ url_for('teacher_login') }}" method="post">
+    <label for="login-by">Login By <span class="required">*</span></label>
+    <select id="login-by" required>
+        <option value="">-- Select --</option>
+        <option value="username">Username</option>
+        <option value="email">Email</option>
+        <option value="phone">Phone Number</option>
+    </select>
+
+    <input type="text" id="login-id" name="username" required>
+
+    <label for="password">Password <span class="required">*</span></label>
+    <input type="password" id="password" name="password" required>
+    <button type="button" class="show-password" onclick="togglePassword()">Show Password</button>
+
+    <div class="buttons">
+        <button type="submit">Log In</button>
+        <button type="button">Cancel</button>
+    </div>
+
+    <div class="links">
+        <a href="#">Forgot Password</a>
+    </div>
+</form>
+{% endblock %}

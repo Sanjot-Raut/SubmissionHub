@@ -1,0 +1,360 @@
+{% extends 'teacher_layout.html' %}
+
+{% block title %}Plagiarism Report - {{ subject }}{% endblock %}
+
+{% block content %}
+<style>
+    .card {
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+        
+    }
+
+    .card-header {
+        background-color: #007bff; /* Primary color */
+        padding: 15px;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+    }
+
+    .card-body {
+        padding: 20px;
+    }
+
+    h4 {
+        margin-top: 20px;
+        color: #003366; /* Darker color for headings */
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+
+    th, td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+        font-size: 16px;
+    }
+
+    th {
+        background-color: #007bff;
+        color: white;
+        font-weight: bold;
+    }
+
+    tr:hover {
+        background-color: #f1f1f1;
+    }
+.main-content {
+    padding: 15px;
+    margin-left: 130px; /* Move content towards the left for larger screens */
+}
+
+@media (max-width: 768px) {
+    .main-content {
+        padding: 15px;
+        margin-left: 10px; /* Adjust as needed for smaller screens */
+    }
+
+    th, td {
+        font-size: 14px;
+    }
+}
+
+</style>
+
+<script>
+    function showTable(tableId) {
+        const tables = document.querySelectorAll('.data-table');
+        tables.forEach(table => {
+            table.style.display = 'none';
+        });
+        document.getElementById(tableId).style.display = 'table';
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        showTable('allSubmissionsTable');
+    });
+</script>
+
+<div class="main-content">
+    <div class="card">
+        <div class="card-header">
+            <h2>Plagiarism Reports for {{ subject }}</h2>
+        </div>
+        <div class="card-body">
+            <div class="form-group">
+                <label for="tableSelector">Select Table:</label>
+                <select id="tableSelector" class="form-control" onchange="showTable(this.value)">
+                    <option value="allSubmissionsTable">All Submissions</option>
+                    <option value="uniqueSubmissionsTable">Unique Submissions</option>
+                    <option value="copiedSubmissionsTable">Copied Submissions</option>
+                    <option value="copiedGroupsTable">Groups of Students Who Copied</option>
+                </select>
+            </div>
+
+            <div id="allSubmissionsTable" class="data-table">
+                <h4>All Submissions</h4>
+                <table class="table table-hover table-bordered">
+                    <thead class="thead-light">
+                        <tr>
+                            {% if 'project' in subject.lower() %}
+                                    <th>ID</th>
+                                    <th>Title</th>
+                                    <th>Description</th>
+
+                                    <th>Submission Date</th>
+                                    <th>Student Name</th>
+                                    <th>Student Email</th>
+                                    <th>Status</th>
+                                    <th>Similar To ID</th>
+                                    <th>File</th>
+                                {% else %}
+                                    <th>ID</th>
+
+                                    <th>Submission Date</th>
+                                    <th>Student Name</th>
+                                    <th>Student Email</th>
+                                    <th>Status</th>
+                                    <th>Similar To ID</th>
+                                    <th>File</th>
+                                {% endif %}
+                           
+               
+            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for comparison in comparisons %}
+                        <tr>
+                            {% if 'project' in subject.lower() %}
+                                    <td>{{ comparison.id }}</td>
+                                    <td>{{ comparison.title }}</td>
+                                    <td>{{ comparison.description }}</td>
+                                    <td>{{ comparison.submission_date }}</td>
+                                    <td>{{ comparison.student_name }}</td>
+                                    <td>{{ comparison.student_email }}</td>
+                                    <td>{{ comparison.status }}</td>
+                                    <td>{{ comparison.similar_to_id }}</td>
+                                    <td><a href="{{ url_for('student_uploaded_file_assignments', filename=comparison.file_path|replace('\\', '/')) }}" target="_blank" class="btn btn-info btn-sm">View</a></td>
+                                {% else %}
+                                    <td>{{ comparison.id }}</td>
+                        
+                                    <td>{{ comparison.submission_date }}</td>
+                                    <td>{{ comparison.student_name }}</td>
+                                    <td>{{ comparison.student_email }}</td>
+                                    <td>{{ comparison.status }}</td>
+                                    <td>{{ comparison.similar_to_id }}</td>
+                                    <td><a href="{{ url_for('student_uploaded_file_assignments', filename=comparison.file_path|replace('\\', '/')) }}" target="_blank" class="btn btn-info btn-sm">View</a></td>
+                                {% endif %}
+            
+           
+           
+        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="4" class="text-center">No comparisons found.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="uniqueSubmissionsTable" class="data-table" style="display: none;">
+                <h4>Unique Submissions</h4>
+                <table class="table table-hover table-bordered">
+                    <thead class="thead-light">
+                        <tr>
+                            {% if 'project' in subject.lower() %}
+                                    <th>ID</th>
+                                    <th>Title</th>
+                                    <th>Description</th>
+
+                                    <th>Submission Date</th>
+                                    <th>Student Name</th>
+                                    <th>Student Email</th>
+                                    <th>Status</th>
+                                    <th>Similar To ID</th>
+                                    <th>File</th>
+                                {% else %}
+                                    <th>ID</th>
+
+                                    <th>Submission Date</th>
+                                    <th>Student Name</th>
+                                    <th>Student Email</th>
+                                    <th>Status</th>
+                                    <th>Similar To ID</th>
+                                    <th>File</th>
+                                {% endif %}
+                           
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for comparison in comparisons if comparison.status == 'unique' %}
+                        <tr>
+                            {% if 'project' in subject.lower() %}
+                                    <td>{{ comparison.id }}</td>
+                                    <td>{{ comparison.title }}</td>
+                                    <td>{{ comparison.description }}</td>
+                                    <td>{{ comparison.submission_date }}</td>
+                                    <td>{{ comparison.student_name }}</td>
+                                    <td>{{ comparison.student_email }}</td>
+                                    <td>{{ comparison.status }}</td>
+                                    <td>{{ comparison.similar_to_id }}</td>
+                                    <td><a href="{{ url_for('student_uploaded_file_assignments', filename=comparison.file_path|replace('\\', '/')) }}" target="_blank" class="btn btn-info btn-sm">View</a></td>
+                                {% else %}
+                                    <td>{{ comparison.id }}</td>
+                        
+                                    <td>{{ comparison.submission_date }}</td>
+                                    <td>{{ comparison.student_name }}</td>
+                                    <td>{{ comparison.student_email }}</td>
+                                    <td>{{ comparison.status }}</td>
+                                    <td>{{ comparison.similar_to_id }}</td>
+                                    <td><a href="{{ url_for('student_uploaded_file_assignments', filename=comparison.file_path|replace('\\', '/')) }}" target="_blank" class="btn btn-info btn-sm">View</a></td>
+                                {% endif %}
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="2" class="text-center">No unique submissions found.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="copiedSubmissionsTable" class="data-table" style="display: none;">
+                <h4>Copied Submissions</h4>
+                <table class="table table-hover table-bordered">
+                    <thead class="thead-light">
+                        <tr>
+                           {% if 'project' in subject.lower() %}
+                                    <th>ID</th>
+                                    <th>Title</th>
+                                    <th>Description</th>
+
+                                    <th>Submission Date</th>
+                                    <th>Student Name</th>
+                                    <th>Student Email</th>
+                                    <th>Status</th>
+                                    <th>Similar To ID</th>
+                                    <th>File</th>
+                                {% else %}
+                                    <th>ID</th>
+
+                                    <th>Submission Date</th>
+                                    <th>Student Name</th>
+                                    <th>Student Email</th>
+                                    <th>Status</th>
+                                    <th>Similar To ID</th>
+                                    <th>File</th>
+                                {% endif %}
+                           
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for comparison in comparisons if comparison.status != 'unique' %}
+                        <tr>
+                           {% if 'project' in subject.lower() %}
+                                    <td>{{ comparison.id }}</td>
+                                    <td>{{ comparison.title }}</td>
+                                    <td>{{ comparison.description }}</td>
+                                    <td>{{ comparison.submission_date }}</td>
+                                    <td>{{ comparison.student_name }}</td>
+                                    <td>{{ comparison.student_email }}</td>
+                                    <td>{{ comparison.status }}</td>
+                                    <td>{{ comparison.similar_to_id }}</td>
+                                    <td><a href="{{ url_for('student_uploaded_file_assignments', filename=comparison.file_path|replace('\\', '/')) }}" target="_blank" class="btn btn-info btn-sm">View</a></td>
+                                {% else %}
+                                    <td>{{ comparison.id }}</td>
+                        
+                                    <td>{{ comparison.submission_date }}</td>
+                                    <td>{{ comparison.student_name }}</td>
+                                    <td>{{ comparison.student_email }}</td>
+                                    <td>{{ comparison.status }}</td>
+                                    <td>{{ comparison.similar_to_id }}</td>
+                                    <td><a href="{{ url_for('student_uploaded_file_assignments', filename=comparison.file_path|replace('\\', '/')) }}" target="_blank" class="btn btn-info btn-sm">View</a></td>
+                                {% endif %}
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="3" class="text-center">No copied submissions found.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+
+
+
+
+
+
+
+            
+           <div id="copiedGroupsTable" class="data-table" style="display: none;">
+      <h1>Plagiarism Report for {{ subject }}</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Assignment ID</th>
+                <th>Student Name</th>
+                <th>Student Email</th>
+                <th>Submission Date</th>
+                <th>File Path</th>
+                <th>Status</th>
+                <th>Copies</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for unique_id, data in unique_assignments.items() %}
+                <tr>
+                    <td>{{ data.assignment.id }}</td>
+                    <td>{{ data.assignment.student_name }}</td>
+                    <td>{{ data.assignment.student_email }}</td>
+                    <td>{{ data.assignment.submission_date }}</td>
+                    <td><a href="{{ url_for('static', filename=data.assignment.file_path) }}" target="_blank">View File</a></td>
+                    <td>{{ data.assignment.status }}</td>
+                    <td>
+                        {% if data.copies %}
+                            <table border="1">
+                                <thead>
+                                    <tr>
+                                        <th>Copy ID</th>
+                                        <th>Copy Student Name</th>
+                                        <th>Copy Student Email</th>
+                                        <th>Copy Submission Date</th>
+                                        <th>Copy File Path</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for copy in data.copies %}
+                                        <tr>
+                                            <td>{{ copy.id }}</td>
+                                            <td>{{ copy.student_name }}</td>
+                                            <td>{{ copy.student_email }}</td>
+                                            <td>{{ copy.submission_date }}</td>
+                                            <td><a href="{{ url_for('static', filename=copy.file_path) }}" target="_blank">View File</a></td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        {% else %}
+                            No copies
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

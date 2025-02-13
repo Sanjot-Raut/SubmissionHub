@@ -1,0 +1,27 @@
+{% extends "teacher_layout.html" %}
+
+{% block content %}
+    <h1>View Submissions</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Student Name</th>
+                <th>Submission Date</th>
+                <th>Grade</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for submission in submissions %}
+            <tr>
+                <td>{{ submission.student_name }}</td>
+                <td>{{ submission.submission_date }}</td>
+                <td>{{ submission.grade }}</td>
+                <td>
+                    <a href="{{ url_for('teacher_grade_submission', id=submission.id) }}">Grade</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

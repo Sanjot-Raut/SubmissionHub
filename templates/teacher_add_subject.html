@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Subject</title>
+    <style>
+        .form-container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f7f7f7;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    {% extends "teacher_layout.html" %}
+
+    {% block content %}
+    <div class="form-container">
+        <h2>Add New Subject</h2>
+        <form action="{{ url_for('teacher_add_subject') }}" method="post">
+            <div class="form-group">
+                <label for="subject_name">Subject Name</label>
+                <input type="text" id="subject_name" name="subject_name" required>
+            </div>
+            <div class="form-group">
+                <label for="subject_code">Subject Code</label>
+                <input type="text" id="subject_code" name="subject_code" required>
+            </div>
+            <div class="form-group">
+                <label for="subject_description">Description</label>
+                <input type="text" id="subject_description" name="subject_description" required>
+            </div>
+            <div class="form-group">
+                <label for="semester">Semester</label>
+                <select id="semester" name="semester" required>
+                    <option value="1">Semester 1</option>
+                    <option value="2">Semester 2</option>
+                    <option value="3">Semester 3</option>
+                    <option value="4">Semester 4</option>
+                    <option value="5">Semester 5</option>
+                    <option value="6">Semester 6</option>
+                    <option value="7">Semester 7</option>
+                    <option value="8">Semester 8</option>
+                </select>
+            </div>
+            <button type="submit">Add Subject</button>
+        </form>
+    </div>
+    {% endblock %}
+</body>
+</html>

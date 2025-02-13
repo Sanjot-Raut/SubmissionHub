@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}SubmissionHub - Login{% endblock %}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: #003366;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            font-size: 30px;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        footer {
+            background-color: #003366;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            font-size: 16px;
+            border-top: 2px solid #002244;
+            margin-top: auto;
+        }
+
+        .container {
+            display: flex;
+            flex: 1;
+            min-height: calc(100vh - 160px); /* Adjust based on header and footer height */
+        }
+
+        .sidebar {
+            background-color: #333;
+            color: #fff;
+            width: 250px;
+            padding: 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100%;
+        }
+
+        .sidebar h2 {
+            margin-top: 0;
+        }
+
+        .sidebar nav {
+            width: 100%;
+        }
+
+        .sidebar nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar nav ul li {
+            margin: 15px 0;
+        }
+
+        .sidebar nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .sidebar nav ul li a.active,
+        .sidebar nav ul li a:hover {
+            background-color: #007bff;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            margin-left: 270px; /* Adjusted to account for the fixed sidebar */
+            padding: 30px;
+        }
+
+        .login-box {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: auto;
+        }
+
+        .login-box h3 {
+            margin-top: 0;
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        form select,
+        form input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .show-password {
+            margin-bottom: 15px;
+            background-color: #007bff;
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .buttons button {
+            width: 48%;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .buttons button[type="submit"] {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .buttons button[type="button"] {
+            background-color: #ccc;
+        }
+
+        .links {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .links a {
+            display: block;
+            color: #007bff;
+            text-decoration: none;
+            margin-top: 5px;
+        }
+
+        .links a:hover {
+            text-decoration: underline;
+        }
+
+        .required {
+            color: red;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                margin-bottom: 20px;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 15px;
+            }
+
+            .login-box {
+                margin: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header >
+        SubmissionHub
+    </header>
+
+    <div class="container">
+        <aside class="sidebar">
+            <h2>SubmissionHub</h2>
+            <nav>
+                <ul>
+                    <li><a href="/student_login" class="{% if request.endpoint == 'student_login' %}active{% endif %}">Student Login</a></li>
+                    <li><a href="/teacher_login" class="{% if request.endpoint == 'teacher_login' %}active{% endif %}">Teacher Login</a></li>
+                    <li><a href="/admin_login" class="{% if request.endpoint == 'admin_login' %}active{% endif %}">Admin Login</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="login-box">
+                <h3>{% block heading %}Log In{% endblock %}</h3>
+                {% block content %}
+                <!-- Page-specific content will be injected here -->
+                {% endblock %}
+            </div>
+        </main>
+    </div>
+
+    <footer>
+        &copy; 2024 SubmissionHub. All rights reserved.
+    </footer>
+
+   <script>
+    function togglePassword() {
+        var passwordField = document.getElementById('password');
+        var button = document.querySelector('.show-password');
+        
+        if (passwordField && button) {
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                button.textContent = 'Hide Password';
+            } else {
+                passwordField.type = 'password';
+                button.textContent = 'Show Password';
+            }
+        }
+    }
+</script>
+
+
+</body>
+</html>

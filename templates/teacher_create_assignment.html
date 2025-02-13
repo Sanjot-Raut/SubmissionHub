@@ -1,0 +1,118 @@
+{% extends "teacher_layout.html" %}
+
+{% block content %}
+<style>
+    .card {
+        border-radius: 12px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        background: #ffffff;
+    }
+
+    .card-header {
+        background: #007bff; /* Use a strong blue for prominence */
+        color: #ffffff;
+        padding: 20px;
+        font-size: 1.5rem;
+        font-weight: 700;
+        text-align: center;
+        border-bottom: 1px solid #0056b3;
+    }
+
+    .card-body {
+        padding: 30px;
+        background: #f9f9f9;
+    }
+
+    .form-group label {
+        font-weight: 600;
+        margin-bottom: 10px;
+        display: block;
+        font-size: 1rem;
+        color: #333;
+    }
+
+    .form-control {
+        border-radius: 8px;
+        border: 1px solid #ced4da;
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.075);
+        padding: 12px 15px;
+        font-size: 0.875rem;
+        transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .form-control:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
+
+    .btn-success {
+        background-color: #28a745;
+        border-color: #28a745;
+        color: #ffffff;
+        padding: 12px 24px;
+        border-radius: 30px;
+        font-size: 1rem;
+        font-weight: 700;
+        transition: background-color 0.3s, border-color 0.3s;
+        text-transform: uppercase;
+    }
+
+    .btn-success:hover {
+        background-color: #218838;
+        border-color: #1e7e34;
+    }
+
+    .form-text {
+        font-size: 0.875rem;
+        color: #6c757d;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    @media (max-width: 768px) {
+        .container {
+            padding: 15px;
+        }
+
+        .btn-success {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="container mt-5 d-flex justify-content-center">
+    <div class="card">
+        <div class="card-header">
+            Create New Assignment
+            <p class="mb-0">Subject ID: {{ subject[1] }}</p>
+        </div>
+        <div class="card-body">
+            <form action="{{ url_for('teacher_create_assignment', subject_id=subject[0]) }}" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="title">Assignment Title</label>
+                    <input type="text" class="form-control" id="title" name="title" placeholder="Enter the title of the assignment" required>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea class="form-control" id="description" name="description" rows="4" placeholder="Provide a brief description of the assignment"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="due_date">Due Date & Time</label>
+                    <input type="datetime-local" class="form-control" id="due_date" name="due_date" required>
+                </div>
+                <div class="form-group">
+                    <label for="assignment_file">Upload Assignment File</label>
+                    <input type="file" class="form-control" id="assignment_file" name="assignment_file">
+                    <small class="form-text">Supported formats: PDF, DOCX, PPTX, etc.</small>
+                </div>
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-success">Create Assignment</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

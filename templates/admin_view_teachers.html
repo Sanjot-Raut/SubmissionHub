@@ -1,0 +1,100 @@
+{% extends "admin_layout.html" %}
+
+{% block title %}View Teachers{% endblock %}
+
+{% block content %}
+<h2>Teachers List</h2>
+<table class="styled-table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Department</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for teacher in teachers %}
+        <tr>
+            <td>{{ teacher.id }}</td>
+            <td>{{ teacher.username }}</td>
+            <td>{{ teacher.email }}</td>
+            <td>{{ teacher.department }}</td>
+            <td>
+
+            
+                                <button onclick="deleteTeacher({{ teacher.id }})">Delete</button>
+
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<script>
+    function deleteTeacher(teacherId) {
+        if (confirm('Are you sure you want to delete this teacher?')) {
+            fetch(`/admin/delete_teacher/${teacherId}`, {
+                method: 'POST'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    // Remove the teacher row from the table
+                    document.getElementById(`teacher-row-${teacherId}`).remove();
+                    alert('Teacher deleted successfully.');
+                } else {
+                    alert('Failed to delete the teacher.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while deleting the teacher.');
+            });
+        }
+    }
+</script>
+
+
+{% endblock %}
+
+{% block custom_css %}
+<style>
+    .styled-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 25px 0;
+        font-size: 18px;
+        text-align: left;
+    }
+    .styled-table thead tr {
+        background-color: #003366;
+        color: #ffffff;
+        text-align: left;
+        font-weight: bold;
+    }
+    .styled-table th, .styled-table td {
+        padding: 12px 15px;
+        border: 1px solid #dddddd;
+    }
+    .styled-table tbody tr {
+        border-bottom: 1px solid #dddddd;
+    }
+    .styled-table tbody tr:nth-of-type(even) {
+        background-color: #f3f3f3;
+    }
+    .styled-table tbody tr:last-of-type {
+        border-bottom: 2px solid #003366;
+    }
+    .styled-table tbody tr:hover {
+        background-color: #f1f1f1;
+    }
+    .styled-table a {
+        color: #007bff;
+        text-decoration: none;
+    }
+    .styled-table a:hover {
+        text-decoration: underline;
+    }
+</style>
+{% endblock %}

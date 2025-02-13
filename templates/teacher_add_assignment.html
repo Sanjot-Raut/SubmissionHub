@@ -1,0 +1,17 @@
+{% extends "teacher_layout.html" %}
+
+{% block content %}
+    <h1>Add New Assignment</h1>
+    <form action="{{ url_for('teacher_add_assignment') }}" method="post">
+        <label for="title">Assignment Title:</label>
+        <input type="text" id="title" name="title" required>
+
+        <label for="due_date">Due Date:</label>
+        <input type="date" id="due_date" name="due_date" required>
+
+        <label for="description">Description:</label>
+        <textarea id="description" name="description"></textarea>
+
+        <button type="submit">Add Assignment</button>
+    </form>
+{% endblock %}

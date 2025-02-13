@@ -1,0 +1,240 @@
+{% extends "student_layout.html" %}
+
+{% block title %}Edit Profile - SubmissionHub{% endblock %}
+
+{% block content %}
+<style>
+body {
+    background-color: #f7f8fc;
+    font-family: 'Roboto', sans-serif;
+}
+
+.profile-card {
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 30px;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+}
+
+.profile-card h2 {
+    font-size: 28px;
+    margin-bottom: 30px;
+    color: #333333;
+    font-weight: 700;
+    text-align: center;
+}
+
+.profile-card .form-group label {
+    font-weight: 600;
+    color: #555555;
+}
+
+.profile-card .form-group input[type="file"] {
+    margin-top: 10px;
+}
+
+.profile-picture {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #dddddd;
+    margin-bottom: 20px;
+    transition: border-color 0.3s, transform 0.3s;
+}
+
+.profile-picture:hover {
+    border-color: #007bff;
+    transform: scale(1.05);
+}
+
+.btn {
+    padding: 12px 25px;
+    font-size: 16px;
+    border-radius: 5px;
+    margin: 5px;
+}
+
+.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+    border-color: #545b62;
+}
+
+.btn-outline-primary {
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    margin: 5px;
+    color: #007bff;
+    border: 1px solid #007bff;
+    background-color: transparent;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.btn-outline-primary:hover {
+    background-color: #007bff;
+    color: #ffffff;
+}
+
+.form-check-label {
+    font-weight: 500;
+    color: #555555;
+}
+
+.mt-4 {
+    margin-top: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    transition: border-color 0.3s;
+}
+
+.form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
+}
+
+.form-inline .form-group {
+    display: flex;
+    align-items: center;
+}
+
+.form-inline .form-group label {
+    width: 150px;
+    margin-bottom: 0;
+    text-align: right;
+    margin-right: 20px;
+}
+
+.text-center button {
+    width: 45%;
+}
+
+.text-center a {
+    width: 45%;
+}
+
+@media (max-width: 768px) {
+    .form-inline .form-group label {
+        text-align: left;
+        margin-right: 0;
+        width: 100%;
+    }
+
+    .form-inline .form-group {
+        display: block;
+    }
+
+    .text-center button, .text-center a {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}
+</style>
+
+<div class="profile-card">
+    <h2>Edit Profile</h2>
+    <form action="{{ url_for('update_profile', user_id=student.id) }}" method="post" enctype="multipart/form-data">
+        <div class="form-group text-center">
+            <img id="profile-pic-preview" src="{{ url_for('profile_pic', user_id=student.id) }}" alt="Profile Picture" class="profile-picture">
+            <div>
+                <label for="profile_picture" class="btn btn-outline-primary">Change Profile Picture</label>
+                <input type="file" class="form-control" id="profile_picture" name="profile_picture" onchange="previewProfilePic(event)" style="display:none;">
+            </div>
+        </div>
+        <div class="form-group form-inline">
+            <label for="username">Username:</label>
+            <input type="text" class="form-control" id="username" name="username" value="{{ student.userid }}" required>
+        </div>
+        <div class="form-group form-inline">
+            <label for="password">New Password:</label>
+            <input type="password" class="form-control" id="password" name="password" placeholder="Enter new password">
+        </div>
+        <div class="form-group form-inline">
+            <label for="confirm_password">Confirm Password:</label>
+            <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Confirm new password">
+        </div>
+        <div class="form-group form-check">
+            <input type="checkbox" class="form-check-input" id="showPassword" onclick="togglePasswordVisibility()">
+            <label class="form-check-label" for="showPassword">Show Password</label>
+        </div>
+        <div class="form-group form-inline">
+            <label for="name">Name:</label>
+            <input type="text" class="form-control" id="name" name="name" value="{{ student.name }}">
+        </div>
+        <div class="form-group form-inline">
+            <label for="email">Email:</label>
+            <input type="email" class="form-control" id="email" name="email" value="{{ student.email }}">
+        </div>
+        <div class="form-group form-inline">
+            <label for="phone_number">Phone:</label>
+            <input type="text" class="form-control" id="phone_number" name="phone_number" value="{{ student.phone_number }}">
+        </div>
+        <div class="form-group form-inline">
+            <label for="address">Address:</label>
+            <input type="text" class="form-control" id="address" name="address" value="{{ student.address }}">
+        </div>
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-success">Save Changes</button>
+            <a href="{{ url_for('student_dashboard', user_id=student.id) }}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+
+<script>
+function previewProfilePic(event) {
+    var reader = new FileReader();
+    reader.onload = function(){
+        var output = document.getElementById('profile-pic-preview');
+        output.src = reader.result;
+    };
+    reader.readAsDataURL(event.target.files[0]);
+}
+
+function togglePasswordVisibility() {
+    var passwordField = document.getElementById("password");
+    var confirmPasswordField = document.getElementById("confirm_password");
+    if (passwordField.type === "password") {
+        passwordField.type = "text";
+        confirmPasswordField.type = "text";
+    } else {
+        passwordField.type = "password";
+        confirmPasswordField.type = "password";
+    }
+}
+</script>
+{% endblock %}

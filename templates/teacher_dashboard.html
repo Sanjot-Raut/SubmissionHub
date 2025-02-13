@@ -1,0 +1,111 @@
+{% extends "teacher_layout.html" %}
+
+{% block title %}Teacher Dashboard{% endblock %}
+
+{% block content %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap');
+
+    body {
+        font-family: 'Open Sans', sans-serif;
+        background-color: #e9ecef;
+        margin: 0;
+        padding: 0;
+    }
+
+    .dashboard-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 80vh;
+        padding: 20px;
+    }
+
+    .profile-card {
+        max-width: 600px;
+        width: 100%;
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        border: 1px solid #dee2e6;
+    }
+
+    .profile-card h1 {
+        font-size: 28px;
+        font-weight: 700;
+        color: #007bff;
+        margin-bottom: 20px;
+    }
+
+    .profile-view {
+        background: #f8f9fa;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .profile-view h3 {
+        margin-top: 0;
+        font-size: 24px;
+        font-weight: 700;
+        color: #343a40;
+    }
+
+    .profile-view p {
+        margin: 12px 0;
+        font-size: 16px;
+        color: #495057;
+    }
+
+    .profile-view strong {
+        color: #007bff;
+        font-weight: 600;
+    }
+
+    .btn-primary {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 12px 24px;
+        background-color: #007bff;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+        border: 2px solid transparent;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #004494;
+        transform: scale(1.05);
+    }
+
+    .btn-primary:active {
+        background-color: #004494;
+        border-color: #003d82;
+        transform: scale(0.95);
+    }
+</style>
+<div class="dashboard-container">
+    <div class="profile-card">
+        <h1>Teacher Dashboard</h1>
+        <div class="profile-view">
+            <h3>Profile</h3>
+            <p><strong>Username:</strong> {{ teacher.username }}</p>
+            <p><strong>Email:</strong> {{ teacher.email }}</p>
+            <p><strong>Department:</strong> {{ teacher.department }}</p>
+            <p><strong>Phone Number:</strong> {{ teacher.phone_number }}</p>
+            <p><strong>Registered At:</strong> {{ teacher.registered_at }}</p>
+            <a href="{{ url_for('teacher_update_profile', user_id=teacher.id) }}" class="btn btn-primary">Edit Profile</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+

@@ -1,0 +1,125 @@
+{% extends "teacher_layout.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <main class="content-wrapper">
+        <!-- Upload Student List Section -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h2 class="card-title mb-4">Upload Student List</h2>
+                <form action="{{ url_for('teacher_add_students_bulk') }}" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="student-file">Upload CSV/Text/PDF File:</label>
+                        <input type="file" class="form-control-file" name="student_file" id="student-file" accept=".csv, .txt, .pdf" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-3">Upload</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Add Single Student Section -->
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title mb-4">Add a Single Student</h2>
+                <form action="{{ url_for('teacher_add_single_student') }}" method="post">
+                    <div class="form-group">
+                        <label for="student-id">Student ID:</label>
+                        <input type="text" class="form-control" name="student-id" id="student-id" aria-describedby="student-id-help" required>
+                        <small id="student-id-help" class="form-text text-muted">Enter the unique ID for the student.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="student-name">Student Name:</label>
+                        <input type="text" class="form-control" name="student-name" id="student-name" aria-describedby="student-name-help" required>
+                        <small id="student-name-help" class="form-text text-muted">Enter the full name of the student.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="student-email">Student Email:</label>
+                        <input type="email" class="form-control" name="student-email" id="student-email" aria-describedby="student-email-help" required>
+                        <small id="student-email-help" class="form-text text-muted">Enter the email address of the student.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="student-pass">Student Password:</label>
+                        <input type="password" class="form-control" name="student-pass" id="student-pass" aria-describedby="student-pass-help" required>
+                        <small id="student-pass-help" class="form-text text-muted">Set a default password for the student.</small>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-3">Add Student</button>
+                </form>
+            </div>
+        </div>
+    </main>
+</div>
+
+<style>
+    .content-wrapper {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin-top: 20px;   
+         gap: 50px;
+    }
+
+    .card {
+        width: 100%;
+        max-width: 700px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-body {
+        padding: 20px;
+    }
+
+    .card-title {
+        font-size: 24px;
+        font-weight: 600;
+        color: #007bff;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        font-size: 16px;
+        color: #333;
+        display: block;
+        margin-bottom: 8px;
+    }
+
+    .form-control {
+        border-radius: 5px;
+        border: 1px solid #ced4da;
+        box-sizing: border-box;
+        transition: border-color 0.3s ease;
+    }
+
+    .form-control:focus {
+        border-color: #007bff;
+        outline: none;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border: 1px solid #007bff;
+        color: #fff;
+        padding: 12px 20px;
+        font-size: 16px;
+        font-weight: 600;
+        border-radius: 5px;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #004494;
+        transform: scale(1.05);
+    }
+
+    .btn-primary:active {
+        background-color: #004494;
+        border-color: #003d82;
+        transform: scale(0.95);
+    }
+</style>
+{% endblock %}

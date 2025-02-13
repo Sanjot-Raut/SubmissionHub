@@ -1,0 +1,199 @@
+{% extends 'student_layout.html' %}
+
+{% block title %}View Assignment{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    {% if assignment %}
+    <div class="card shadow-sm rounded">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center rounded-top">
+            <h2 class="mb-0">{{ assignment.title }}</h2>
+            <span class="badge bg-secondary">{{ subject.name }}</span>
+        </div>
+        <div class="card-body">
+            <div class="assignment-details mb-4">
+                <p><strong>Description:</strong> {{ assignment.details }}</p>
+                <p><strong>Due Date:</strong> {{ assignment.due_date }}</p>
+                <p><strong>File:</strong> 
+                    {% if assignment.file_path %}
+                    <a href="{{ url_for('uploaded_file', filename=assignment.file_path.replace('\\', '/')) }}" target="_blank" class="btn btn-link text-primary">View File</a>
+                    {% else %}
+                    <span class="text-muted">No file attached.</span>
+                    {% endif %}
+                </p>
+                <p><strong>Created At:</strong> {{ assignment.created_at }}</p>
+            </div>
+            <hr>
+            <h3 class="mt-4">Submit Your Assignment</h3>
+            <form action="{{ url_for('student_submit_assignment', assignment_id=assignment.id) }}" method="POST" enctype="multipart/form-data">
+                {% if 'project' in subject.name.lower() %}
+                <div class="mb-4">
+                    <label for="project_title" class="form-label">Project Title</label>
+                    <input type="text" class="form-control" id="project_title" name="project_title" placeholder="Enter project title" required>
+                </div>
+                {% endif %}
+                <div class="drop-area mb-4">
+                    <input type="file" id="fileInput" name="file" class="d-none" required>
+                    <div class="drop-area-text">
+                        <p>Drag & Drop your file here or <span class="text-primary">click to select</span></p>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label for="comments" class="form-label">Comments (Optional)</label>
+                    <textarea class="form-control" id="comments" name="comments" rows="4" placeholder="Add any comments here..."></textarea>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-success btn-lg">Submit</button>
+                </div>
+            </form>
+        </div>
+        <a href="{{ url_for('student_view_subject_details', subject_id=assignment.subject_id) }}" class="btn btn-secondary btn-lg">Back to Subject</a>
+    </div>
+    {% else %}
+    <div class="alert alert-danger mt-4" role="alert">
+        Assignment not found.
+    </div>
+    {% endif %}
+</div>
+
+<style>
+    .card {
+        border-radius: 0.5rem;
+        overflow: hidden;
+        border: 1px solid #ddd;
+    }
+
+    .card-header {
+        padding: 1rem;
+        background: #007bff;
+        color: #fff;
+        font-size: 1.25rem;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .card-body {
+        padding: 1.5rem;
+    }
+
+    .form-control {
+        margin-bottom: 1rem;
+        border-radius: 0.25rem;
+    }
+
+    .btn-success {
+        border-radius: 0.25rem;
+        background: #28a745;
+        border: 1px solid #28a745;
+        color: #fff;
+        font-size: 1.125rem; /* Larger text size */
+        padding: 0.75rem 1.5rem; /* Larger padding */
+        transition: background 0.2s, border-color 0.2s;
+    }
+
+    .btn-success:hover {
+        background: #218838;
+        border-color: #1e7e34;
+    }
+
+    .btn-secondary {
+        border-radius: 0.25rem;
+        background: #6c757d;
+        border: 1px solid #6c757d;
+        color: #fff;
+        font-size: 1.125rem; /* Larger text size */
+        padding: 0.75rem 1.5rem; /* Larger padding */
+        transition: background 0.2s, border-color 0.2s;
+          text-decoration:none;
+    }
+
+    .btn-secondary:hover {
+        background: #5a6268;
+        border-color: #545b62;
+      
+    }
+
+    .drop-area {
+        border: 2px dashed #007bff;
+        border-radius: 0.25rem;
+        padding: 20px;
+        text-align: center;
+        cursor: pointer;
+        background-color: #f8f9fa;
+        transition: background-color 0.2s, border-color 0.2s;
+    }
+
+    .drop-area-text {
+        font-size: 1rem;
+        color: #007bff;
+    }
+
+    .drop-area:hover {
+        background-color: #e9ecef;
+        border-color: #0056b3;
+    }
+
+    .drop-area.dragover {
+        background-color: #e2e6ea;
+        border-color: #0056b3;
+    }
+
+    .drop-area.dragover .drop-area-text {
+        color: #0056b3;
+    }
+
+    .assignment-details p {
+        margin-bottom: 0.5rem;
+    }
+
+    .assignment-details p strong {
+        color: #333;
+    }
+
+    .assignment-details a {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+    .assignment-details a:hover {
+        text-decoration: underline;
+    }
+
+    .text-primary {
+        color: #007bff;
+    }
+
+    .text-muted {
+        color: #6c757d;
+    }
+</style>
+
+<script>
+    document.querySelector('.drop-area').addEventListener('click', function() {
+        document.getElementById('fileInput').click();
+    });
+
+    document.getElementById('fileInput').addEventListener('change', function() {
+        if (this.files.length > 0) {
+            document.querySelector('.drop-area-text').innerText = this.files[0].name;
+        }
+    });
+
+    document.querySelector('.drop-area').addEventListener('dragover', function(event) {
+        event.preventDefault();
+        this.classList.add('dragover');
+    });
+
+    document.querySelector('.drop-area').addEventListener('dragleave', function() {
+        this.classList.remove('dragover');
+    });
+
+    document.querySelector('.drop-area').addEventListener('drop', function(event) {
+        event.preventDefault();
+        this.classList.remove('dragover');
+        document.getElementById('fileInput').files = event.dataTransfer.files;
+        if (event.dataTransfer.files.length > 0) {
+            document.querySelector('.drop-area-text').innerText = event.dataTransfer.files[0].name;
+        }
+    });
+</script>
+{% endblock %}

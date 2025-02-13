@@ -1,0 +1,124 @@
+{% extends 'student_layout.html' %}
+
+{% block title %}View Subjects{% endblock %}
+
+{% block content %}
+<div class="subjects-container">
+    <h2 class="subjects-title">Your Subjects</h2>
+    <p class="subjects-description">Below is a list of subjects you are currently enrolled in. Click on a subject to view more details and assignments.</p>
+
+    <label for="semester-select" class="semester-label">Filter by Semester:</label>
+    <select id="semester-select" class="semester-select" onchange="filterSubjects()">
+        <option value="all">All Semesters</option>
+        {% set semesters = subjects | map(attribute='semester') | list | unique %}
+        {% for semester in semesters %}
+            <option value="{{ semester }}">{{ semester }}</option>
+        {% endfor %}
+    </select>
+
+    <ul class="subjects-list">
+        {% if subjects %}
+            {% for subject in subjects %}
+                <li class="subject-item" data-semester="{{ subject.semester }}">
+                    <a href="{{ url_for('student_view_subject_details', subject_id=subject.id) }}" class="subject-link">
+                        {{ subject.name }} - Semester {{ subject.semester }}
+                    </a>
+                </li>
+            {% endfor %}
+        {% else %}
+            <p class="no-subjects-message">You are not enrolled in any subjects yet.</p>
+        {% endif %}
+    </ul>
+</div>
+
+<style>
+    .subjects-container {
+        max-width: 800px;
+        margin: 30px auto;
+        padding: 20px;
+        background-color: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+    }
+
+    .subjects-title {
+        font-size: 2.5rem;
+        color: #003366;
+        margin-bottom: 15px;
+        text-align: center;
+    }
+
+    .subjects-description {
+        font-size: 1.2rem;
+        color: #555;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .subjects-list {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .subject-item {
+        margin: 10px 0;
+        text-align: center;
+    }
+
+    .subject-link {
+        display: block;
+        font-size: 1.2rem;
+        color: #007bff;
+        text-decoration: none;
+        padding: 10px 15px;
+        border: 2px solid #007bff;
+        border-radius: 25px;
+        transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+    }
+
+    .subject-link:hover {
+        background-color: #007bff;
+        color: #ffffff;
+        border-color: #0056b3;
+    }
+
+    .no-subjects-message {
+        font-size: 1.2rem;
+        color: #d9534f;
+        text-align: center;
+    }
+
+    .semester-label {
+        display: block;
+        margin-top: 20px;
+        font-size: 16px;
+        color: #333;
+    }
+
+    .semester-select {
+        width: 100%;
+        padding: 8px;
+        font-size: 16px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        margin-bottom: 20px;
+    }
+</style>
+
+<script>
+    function filterSubjects() {
+        const selectedSemester = document.getElementById('semester-select').value;
+        const subjects = document.querySelectorAll('.subject-item');
+
+        subjects.forEach(subject => {
+            if (selectedSemester === 'all' || subject.getAttribute('data-semester') === selectedSemester) {
+                subject.style.display = 'block';
+            } else {
+                subject.style.display = 'none';
+            }
+        });
+    }
+</script>
+{% endblock %}

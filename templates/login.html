@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SubmissionHub - Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: #003366;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            font-size: 30px;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        footer {
+            background-color: #003366;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            font-size: 16px;
+            border-top: 2px solid #002244;
+            margin-top: auto;
+        }
+
+        .container {
+            display: flex;
+            flex: 1;
+            min-height: calc(100vh - 160px); /* Adjust based on header and footer height */
+        }
+
+        .sidebar {
+            background-color: #333;
+            color: #fff;
+            width: 250px;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .sidebar h2 {
+            margin-top: 0;
+        }
+
+        .sidebar nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .sidebar nav ul li {
+            margin: 15px 0;
+        }
+
+        .sidebar nav ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .sidebar nav ul li a.active {
+            background-color: #007bff;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            padding: 30px;
+        }
+
+        .login-box {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: auto;
+        }
+
+        .login-box h3 {
+            margin-top: 0;
+        }
+
+        .instructions {
+            background-color: #e9f5ff;
+            padding: 10px;
+            border: 1px solid #cce7ff;
+            margin-bottom: 20px;
+        }
+
+        .instructions p {
+            margin: 0;
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        form select,
+        form input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .show-password {
+            margin-bottom: 15px;
+            background-color: #007bff;
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .captcha-image {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .buttons button {
+            width: 48%;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .buttons button[type="submit"] {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .buttons button[type="button"] {
+            background-color: #ccc;
+        }
+
+        .links {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .links a {
+            display: block;
+            color: #007bff;
+            text-decoration: none;
+            margin-top: 5px;
+        }
+
+        .links a:hover {
+            text-decoration: underline;
+        }
+
+        .required {
+            color: red;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                padding: 10px;
+            }
+
+            .main-content {
+                padding: 15px;
+            }
+
+            .login-box {
+                margin: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        SubmissionHub
+    </header>
+
+    <div class="container">
+        <aside class="sidebar">
+            <h2>Navigation</h2>
+            <nav>
+                <ul>
+                    <li><a href="#" class="active">Home</a></li>
+                    <li><a href="#">Student</a></li>
+                    <li><a href="#">Create Account</a></li>
+                    <li><a href="#">College</a></li>
+                    <li><a href="#">Admin / Support</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="login-box">
+                <h3>Student Log In</h3>
+                <div class="instructions">
+                    <p>Use previous session's username and password for login. Do not create a new account if you have created an account in the previous session.</p>
+                    <p>Only one account per student is allowed.</p>
+                </div>
+                <form>
+                    <label for="login-by">Login By <span class="required">*</span></label>
+                    <select id="login-by" required>
+                        <option value="">-- Select --</option>
+                        <option value="username">Username</option>
+                        <option value="email">Email</option>
+                    </select>
+
+                    <label for="password">Password <span class="required">*</span></label>
+                    <input type="password" id="password" required>
+                    <button type="button" class="show-password">Show Password</button>
+
+                    <label for="captcha">Enter captcha text as shown in image <span class="required">*</span></label>
+                    <img src="captcha.png" alt="Captcha" class="captcha-image">
+                    <input type="text" id="captcha" required>
+
+                    <div class="buttons">
+                        <button type="submit">Log In</button>
+                        <button type="button">Cancel</button>
+                    </div>
+
+                    <div class="links">
+                        <a href="#">Forgot Password</a>
+                        <a href="#">Create Account</a>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <footer>
+        &copy; 2024 SubmissionHub. All rights reserved.
+    </footer>
+
+</body>
+</html>
